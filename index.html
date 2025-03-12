@@ -74,12 +74,10 @@
     </div>
 
     <script>
-        // Duplicate carousel content for seamless scrolling
         const carousel = document.getElementById('carousel');
         const carouselContent = carousel.innerHTML;
-        carousel.innerHTML += carouselContent; // Duplicate the content
+        carousel.innerHTML += carouselContent; 
 
-        // Chart.js code
         let stockData = [{ time: new Date().toLocaleTimeString(), price: 100 }];
         let ctx = document.getElementById('stockChart').getContext('2d');
 
