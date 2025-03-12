@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Price Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        .carousel {
+            display: flex;
+            overflow: hidden;
+            width: 80%;
+            margin: auto;
+            white-space: nowrap;
+            animation: scroll 10s linear infinite;
+        }
+        .stock-box {
+            display: inline-block;
+            background: white;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        #chartContainer {
+            width: 80%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h2>Stock Price Dashboard</h2>
+    <div class="carousel">
+        <div class="stock-box">Apple Inc - $150.00</div>
+        <div class="stock-box">Tesla Inc - $800.00</div>
+        <div class="stock-box">Amazon Inc - $3400.00</div>
+        <div class="stock-box">Google Inc - $2800.00</div>
+        <div class="stock-box">Microsoft - $299.00</div>
+    </div>
+    <br>
+    <div id="chartContainer">
+        <canvas id="stockChart"></canvas>
+        <input type="number" id="priceChange" placeholder="Enter price change">
+        <button onclick="updatePrice()">Update Price</button>
+    </div>
+
+    <script>
+        let stockData = [{ time: new Date().toLocaleTimeString(), price: 100 }];
+        let ctx = document.getElementById('stockChart').getContext('2d');
+
+        let stockChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: stockData.map(d => d.time),
+                datasets: [{
+                    label: 'Stock Price',
+                    data: stockData.map(d => d.price),
+                    borderColor: 'darkgray',
+                    backgroundColor: 'lightgray',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                scales: {
+                    x: { type: 'category', title: { display: true, text: 'Time' } },
+                    y: { title: { display: true, text: 'Price' } }
+                }
+            }
+        });
+
+        function updatePrice() {
+            let change = parseFloat(document.getElementById('priceChange').value) || 0;
+            let newPrice = stockData[stockData.length - 1].price + change;
+            stockData.push({ time: new Date().toLocaleTimeString(), price: newPrice });
+            
+            let dataset = stockChart.data.datasets[0];
+            dataset.data.push(newPrice);
+            dataset.borderColor = newPrice >= stockData[stockData.length - 2].price ? 'darkgreen' : 'darkred';
+            dataset.backgroundColor = newPrice >= stockData[stockData.length - 2].price ? 'lightgreen' : 'lightcoral';
+            
+            stockChart.data.labels.push(`Crisis Update ${stockData.length - 1}`);
+            stockChart.update();
+        }
+    </script>
+</body>
+</html>
