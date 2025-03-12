@@ -8,8 +8,9 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: rgb(42, 44, 56);
             text-align: center;
+            color: white;
         }
         .carousel-container {
             width: 100%;
@@ -17,11 +18,12 @@
             position: relative;
             white-space: nowrap;
         }
+
         .carousel {
-            display: flex;
-            width: 200%; /* Ensures smooth scrolling */
-            animation: scroll 10s linear infinite;
+            display: inline-flex;
+            animation: scroll 20s linear infinite;
         }
+
         .stock-box {
             flex: 0 0 auto;
             width: 200px;
@@ -31,35 +33,39 @@
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
+            color: black;
         }
+
         @keyframes scroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
+
         #chartContainer {
             width: 80%;
             margin: auto;
-            background: white;
+            background: rgb(35, 36, 46);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
-<body>
+<body> 
     <h2>Pepsi Co</h2>
     <div class="carousel-container">
-        <div class="carousel">
+        <div class="carousel" id="carousel">
             <div class="stock-box">Apple Inc - $150.00</div>
             <div class="stock-box">Tesla Inc - $800.00</div>
             <div class="stock-box">Amazon Inc - $3400.00</div>
             <div class="stock-box">Google Inc - $2800.00</div>
             <div class="stock-box">Microsoft - $299.00</div>
-            <div class="stock-box">Apple Inc - $150.00</div>
-            <div class="stock-box">Tesla Inc - $800.00</div>
-            <div class="stock-box">Amazon Inc - $3400.00</div>
+            <div class="stock-box">Nvidia - $299.00</div>
+            <div class="stock-box">Coca Cola - $299.00</div>
+            <div class="stock-box">Pinterest - $299.00</div>
         </div>
     </div>
+    
     <br>
     <div id="chartContainer">
         <canvas id="stockChart"></canvas>
@@ -68,6 +74,12 @@
     </div>
 
     <script>
+        // Duplicate carousel content for seamless scrolling
+        const carousel = document.getElementById('carousel');
+        const carouselContent = carousel.innerHTML;
+        carousel.innerHTML += carouselContent; // Duplicate the content
+
+        // Chart.js code
         let stockData = [{ time: new Date().toLocaleTimeString(), price: 100 }];
         let ctx = document.getElementById('stockChart').getContext('2d');
 
@@ -99,8 +111,8 @@
             
             let dataset = stockChart.data.datasets[0];
             dataset.data.push(newPrice);
-            dataset.borderColor = newPrice >= stockData[stockData.length - 2].price ? 'darkgray' : 'darkred';
-            dataset.backgroundColor = newPrice >= stockData[stockData.length - 2].price ? 'lightgray' : 'lightcoral';
+            dataset.borderColor = newPrice >= stockData[stockData.length - 2].price ? 'darkgreen' : 'darkred';
+            dataset.backgroundColor = newPrice >= stockData[stockData.length - 2].price ? 'lightgreen' : 'lightcoral';
             
             stockChart.data.labels.push(`Crisis Update ${stockData.length - 1}`);
             stockChart.update();
