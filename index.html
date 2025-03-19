@@ -60,9 +60,9 @@
             <div class="stock-box">Amazon Inc - $3400.00</div>
             <div class="stock-box">Google Inc - $2800.00</div>
             <div class="stock-box">Microsoft - $299.00</div>
-            <div class="stock-box">Nvidia - $299.00</div>
             <div class="stock-box">Coca Cola - $299.00</div>
             <div class="stock-box">Pinterest - $299.00</div>
+            <div class="stock-box" id="pepsi">Pepsi - $299.00</div>
         </div>
     </div>
     
@@ -80,7 +80,6 @@
 
         let stockData = [{ time: new Date().toLocaleTimeString(), price: 100 }];
         let ctx = document.getElementById('stockChart').getContext('2d');
-
         let stockChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -114,7 +113,15 @@
             
             stockChart.data.labels.push(`Crisis Update ${stockData.length - 1}`);
             stockChart.update();
-        }
+
+            let inputText = document.getElementById('priceChange').value;
+            //document.getElementById('pepsi').textContent = inputText;
+            document.getElementById('pepsi').textContent = `Pepsi - $${inputText}`;
+         }
+
+        
+
+
     </script>
 </body>
 </html>
